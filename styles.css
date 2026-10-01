@@ -1,0 +1,33 @@
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+.stage { width: 100vw; height: 100vh; display: grid; place-items: center; position: relative; background: #000; }
+.larry { width: 154px; height: 154px; padding: 0; border: 0; position: relative; z-index: 2; background: transparent; cursor: crosshair; transition: transform .18s ease; }
+.larry:hover { transform: scale(1.05); }
+.larry:focus-visible { outline: 2px solid #fff; outline-offset: 10px; }
+.eye { position: absolute; top: 48px; width: 15px; height: 15px; border-radius: 50%; background: #fff; }
+.eye-left { left: 42px; }.eye-right { right: 42px; }
+.mouth { position: absolute; top: 74px; left: 43px; width: 68px; height: 33px; border-bottom: 7px solid #fff; border-radius: 0 0 50% 50%; }
+.larry.sad .mouth { top: 94px; border-bottom: 0; border-top: 7px solid #fff; border-radius: 50% 50% 0 0; }
+.larry.victorious { z-index: 10; }
+.larry.victorious .mouth { top: 74px; border-bottom-width: 9px; }
+.larry.grave { width: 150px; height: 132px; border-radius: 76px 76px 8px 8px; background: #777; box-shadow: inset 0 0 0 5px #aaa, inset 0 -14px 0 #555; cursor: pointer; }
+.larry.grave .eye, .larry.grave .mouth { display: none; }
+.larry.grave::before, .larry.grave::after { content: ""; position: absolute; left: 38px; width: 74px; height: 5px; border-radius: 3px; background: #444; }
+.larry.grave::before { top: 55px; transform: rotate(45deg); }.larry.grave::after { top: 55px; transform: rotate(-45deg); }
+.larry.gone { visibility: hidden; }
+#explosion { width: 100vw; height: 100vh; position: fixed; inset: 0; pointer-events: none; }
+.counter { position: fixed; left: 50%; bottom: 8vh; z-index: 5; color: #fff; opacity: 0; transform: translateX(-50%); font: 12px "Courier New", monospace; letter-spacing: .12em; text-transform: uppercase; transition: opacity .25s ease; pointer-events: none; }
+.counter.visible { opacity: 1; }
+.cursor-hit { cursor: not-allowed !important; }
+.bounce-ring { position: fixed; z-index: 8; width: 34px; height: 34px; border: 2px solid #fff; border-radius: 50%; pointer-events: none; animation: bounce-ring .3s ease-out forwards; }
+@keyframes bounce-ring { from { opacity: .9; transform: translate(-50%, -50%) scale(.5); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.7); } }
+.red-particle, .bullet { position: fixed; z-index: 9; display: block; pointer-events: none; }
+.red-particle { width: 7px; height: 7px; border-radius: 50%; background: #f22; animation: red-burst .75s ease-out forwards; }
+.bullet { width: 20px; height: 20px; border-radius: 50%; background: #ffd21a; box-shadow: 0 0 12px 4px rgba(255,191,0,.8), inset -4px -4px 4px rgba(180,80,0,.45); animation: bullet-shot .5s linear forwards; }
+@keyframes red-burst { to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
+@keyframes bullet-shot { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
+.weapon { position: fixed; z-index: 11; width: 280px; height: 220px; overflow: visible; pointer-events: none; transform-origin: 50% 50%; }
+.sword-weapon { transform-origin: 12% 50%; animation: sword-swing .42s ease-in-out forwards; }
+.gun-weapon { animation: gun-kick .55s ease-out forwards; }
+@keyframes sword-swing { from { transform: rotate(calc(var(--angle) - 45deg)) scale(.75); opacity: 1; } 22% { transform: rotate(calc(var(--angle) - 45deg)) scale(1); opacity: 1; } to { transform: rotate(calc(var(--angle) + 45deg)) scale(1); opacity: 0; } }
+@keyframes gun-kick { from { transform: rotate(-8deg) scale(.8); opacity: 0; } 12% { opacity: 1; } 35% { transform: rotate(-8deg) scale(1); } to { opacity: 0; } }
